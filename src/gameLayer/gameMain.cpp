@@ -1,6 +1,6 @@
-#include <iostream>
 #include <raylib.h>
 #include "gameMain.h"
+#include <asserts.h>
 
 struct GameData{
 
@@ -10,6 +10,11 @@ struct GameData{
 }gameData;
 
 bool initGame(){
+
+    bool thingsAreOk = false;
+
+    permaAssertComment(thingsAreOk == true, "error; things are not ok :/");
+
 
     return true;
 }
@@ -31,5 +36,4 @@ bool updateGame(){
 
 void closeGame(){
 
-    std::cout << "\n\nCLOSED!!!!!!!\n\n";
 }
