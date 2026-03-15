@@ -4,11 +4,20 @@
 #include <imgui.h>
 #include <rlImGui.h>
 
-int main()
+#include <gameMain.h>
+
+int main(void)
 {
-	
+
+#if PRODUCTION_BUILD == 1
+	SetTraceLogLevel(LOG_NONE);
+#endif
+
 	SetConfigFlags(FLAG_WINDOW_RESIZABLE);
 	InitWindow(800, 450, "I am a Window grrr!");
+	SetExitKey(KEY_NULL); // Disable Esc from closing window
+	SetTargetFPS(240);
+
 
 #pragma region imgui	
 	rlImGuiSetup(true);
@@ -94,6 +103,10 @@ int main()
 	style.SeparatorTextBorderSize = 2.0f;
 #pragma endregion
 
+	if(!initGame()){
+		return 0;
+	}
+
 	while(!WindowShouldClose()){
 		BeginDrawing();
 		ClearBackground(BLACK);
@@ -109,36 +122,9 @@ int main()
 
 	#pragma endregion
 
-		DrawRectangle(50, 50, 100, 100, RED);
-		DrawRectangle(75, 75, 100, 100, {0, 255, 0, 127});
-
-		DrawText("Congrats! You created your first window!", 190, 200, 20, RED);
-
-	#pragma region imgui windows
-		ImGui::Begin("test");
-
-		ImGui::Text("hello");
-		if (ImGui::Button("button")){
-			std::cout << "Text\n";
+		if(!updateGame()){
+			CloseWindow();
 		}
-		ImGui::SameLine();
-		if(ImGui::Button("button2")){
-			std::cout << "Second button\n";
-		}
-
-		ImGui::End();
-
-
-		ImGui::Begin("second window");
-
-		ImGui::Text("hello");
-		ImGui::Separator();
-		ImGui::NewLine();
-		static float a = 0;
-		ImGui::SliderFloat("slider", &a, 0, 1);
-
-		ImGui::End();
-	#pragma endregion
 
 	#pragma region imgui
 		rlImGuiEnd();
@@ -153,5 +139,7 @@ int main()
 
 	CloseWindow();
 
+	closeGame();
+	
 	return 0;
 }
