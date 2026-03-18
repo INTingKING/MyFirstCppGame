@@ -27,6 +27,7 @@ project(mygame)
 add_subdirectory(thirdparty/raylib-5.0)
 add_subdirectory(thirdparty/imgui-docking)
 add_subdirectory(thirdparty/rlimgui)
+add_subdirectory(thirdparty/FastNoiseSIMD)
 
 
 # MY_SOURCES is defined to be a list of all the source files for my game 
@@ -62,7 +63,7 @@ if(MSVC) # If using the VS compiler...
 
 	if(PRODUCTION_BUILD)
 		#YOU CAN REMOVE THE CONSOLE WITH THIS LINE!
-		#set_target_properties("${CMAKE_PROJECT_NAME}" PROPERTIES LINK_FLAGS "/SUBSYSTEM:WINDOWS /ENTRY:mainCRTStartup") #no console
+		set_target_properties("${CMAKE_PROJECT_NAME}" PROPERTIES LINK_FLAGS "/SUBSYSTEM:WINDOWS /ENTRY:mainCRTStartup") #no console
 	endif()
 
 elseif(MINGW) # Windows / MinGW GCC/Clang
@@ -86,7 +87,7 @@ target_include_directories("${CMAKE_PROJECT_NAME}" PUBLIC "${CMAKE_CURRENT_SOURC
 
 
 # Link raylib library statically, here you would add other libraries!
-target_link_libraries("${CMAKE_PROJECT_NAME}" PRIVATE raylib_static imgui rlimgui )
+target_link_libraries("${CMAKE_PROJECT_NAME}" PRIVATE raylib_static imgui rlimgui fastNoiseSIMD)
 
 
 
